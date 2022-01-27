@@ -22,10 +22,5 @@ def hello_world():
     print(type(results))
     for i,title in enumerate(data['results']):
         titles['title' + str(i)] = title['title']
-    print("test")
+    print("test ")
     return jsonify(data)
-
-
-
-if __name__ == "__main__":
-    app.run(debug=True)     
