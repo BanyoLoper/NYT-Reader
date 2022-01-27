@@ -22,7 +22,7 @@ def hello_world():
     print(type(results))
     for i,title in enumerate(data['results']):
         titles['title' + str(i)] = title['title']
-
+    print("test")
     return jsonify(data)
 
 
