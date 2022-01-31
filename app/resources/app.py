@@ -1,5 +1,8 @@
 from flask import Flask, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from .model import Token
 import requests
+import os
 
 app = Flask(__name__)
 
@@ -7,6 +10,11 @@ app = Flask(__name__)
 # API Base: 
 # Specified API: /lists/best-sellers/history.json 
 # API Key: ELktWPwCBRM2iM6J5Tjdxj5oQH4bLcBn
+
+SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgersql://postgres:frigon@localhost/nyt_reader'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = 'secret string'
 
 api_base = 'https://api.nytimes.com/svc/books/v3'
 api_specific = '/lists/best-sellers/history.json' 
@@ -22,5 +30,8 @@ def hello_world():
     print(type(results))
     for i,title in enumerate(data['results']):
         titles['title' + str(i)] = title['title']
-    print("test ")
+    entry = Token("nyt_books",'test')
+    db.session.add(entry)
+    db.session.commit()
+    
     return jsonify(data)
